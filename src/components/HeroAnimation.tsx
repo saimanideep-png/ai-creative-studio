@@ -111,22 +111,28 @@ const HeroAnimation: React.FC = () => {
       {/* ── Content Layer ── */}
       <div className="hero-content-layer">
 
-        {/* Name with per-character ignition */}
-        <h1 className="hero-name">
-          {nameChars.map((item, i) =>
-            item.char === ' ' ? (
-              <span key={i} className="hero-name__space" />
-            ) : (
-              <span
-                key={i}
-                className={`hero-name__char ${item.bright ? 'hero-name__char--bright' : ''} ${isActive(2) ? 'hero-name__char--ignite' : ''}`}
-                style={{ transitionDelay: `${stage === 100 ? 0 : item.delay}s` }}
-              >
-                {item.char}
-              </span>
-            )
-          )}
-          <span className={`hero-twinkle ${isActive(4) ? 'hero-twinkle--pop' : ''}`}>✦</span>
+        {/* Name with per-character ignition. 
+            We use an sr-only tag for SEO bots so they read "Sai Manideep - AI Automation Engineer" 
+            as a single string instead of split characters. */}
+        <h1 className="hero-name" aria-label="Sai Manideep">
+          <span className="sr-only">Sai Manideep — AI Automation Engineer for Ads and Content Studios</span>
+          
+          <span aria-hidden="true" style={{ display: 'flex' }}>
+            {nameChars.map((item, i) =>
+              item.char === ' ' ? (
+                <span key={i} className="hero-name__space" />
+              ) : (
+                <span
+                  key={i}
+                  className={`hero-name__char ${item.bright ? 'hero-name__char--bright' : ''} ${isActive(2) ? 'hero-name__char--ignite' : ''}`}
+                  style={{ transitionDelay: `${stage === 100 ? 0 : item.delay}s` }}
+                >
+                  {item.char}
+                </span>
+              )
+            )}
+            <span className={`hero-twinkle ${isActive(4) ? 'hero-twinkle--pop' : ''}`}>✦</span>
+          </span>
         </h1>
 
         {/* Role */}
