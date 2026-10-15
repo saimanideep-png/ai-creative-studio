@@ -1,203 +1,60 @@
-/* ================================================
-   DESIGN SYSTEM — Creative Studio Theme
-   Palette derived from ANSHAVATAR ember concept art
-   ================================================ */
+@import "tailwindcss";
 
-/* ---------- Custom Properties ---------- */
-:root {
-  /* Backgrounds */
-  --bg-canvas: #0d0d0f;
-  --bg-surface: #161619;
-  --bg-glass: rgba(22, 22, 25, 0.75);
-  --bg-elevated: #1c1c20;
+/* ─── Design Tokens ─── */
+@theme {
+  --color-bg: #100D10;
+  --color-surface: #191518;
+  --color-surface-2: #211B1F;
+  --color-text: #F3EEE8;
+  --color-text-secondary: #B8ADB0;
+  --color-text-muted: #887D82;
+  --color-coral: #E28168;
+  --color-coral-hover: #d4705a;
+  --color-lavender: #8178E8;
+  --color-border: rgba(243, 238, 232, 0.12);
+  --color-border-hover: rgba(243, 238, 232, 0.24);
 
-  /* Accents */
-  --accent-gold: #d4a853;
-  --accent-ember: #f0a030;
-  --accent-glow: rgba(212, 168, 83, 0.15);
-  --accent-gold-dim: rgba(212, 168, 83, 0.6);
-
-  /* Text */
-  --text-primary: #ece6d8;
-  --text-muted: #7a756b;
-  --text-heading: #f5f0e6;
-
-  /* Borders */
-  --border-subtle: #2a2a2e;
-  --border-gold: rgba(212, 168, 83, 0.3);
-
-  /* Typography */
-  --font-heading: 'Outfit', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-
-  /* Spacing scale */
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 2rem;
-  --space-xl: 3rem;
-  --space-2xl: 5rem;
-  --space-3xl: 8rem;
-
-  /* Sizing */
-  --max-width: 1100px;
-  --nav-height: 64px;
-
-  /* Transitions */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-base: 0.3s var(--ease-out);
+  --font-heading: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
 }
 
-/* ---------- Reset & Base ---------- */
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* ─── Base Styles ─── */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: var(--nav-height);
+  scroll-padding-top: 80px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
 }
 
 body {
   font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--text-primary);
-  background-color: var(--bg-canvas);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-
-/* ---------- Typography ---------- */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  color: var(--text-heading);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  color: var(--color-text);
+  line-height: 1.15;
 }
 
-/* Visually hide text for screen readers and SEO bots */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+::selection {
+  background-color: var(--color-coral);
+  color: #fff;
 }
 
-h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; }
-h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; }
-h3 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); font-weight: 600; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-surface-2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-coral); }
 
-p {
-  color: var(--text-primary);
-  max-width: 65ch;
-}
-
-a {
-  color: var(--accent-gold);
-  text-decoration: none;
-  transition: color var(--transition-base);
-}
-
-a:hover {
-  color: var(--accent-ember);
-}
-
-/* ---------- Section layout ---------- */
-.section {
-  padding: var(--space-3xl) var(--space-lg);
-  position: relative;
-}
-
-.section__inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-
-.section__label {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--accent-gold);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-bottom: var(--space-sm);
-}
-
-.section__title {
-  margin-bottom: var(--space-xl);
-}
-
-.section__divider {
-  width: 48px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent-gold), transparent);
-  margin-top: var(--space-sm);
-  margin-bottom: var(--space-lg);
-  border: none;
-}
-
-/* ---------- Utility ---------- */
-.glass {
-  background: var(--bg-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-subtle);
-}
-
-.gold-glow {
-  box-shadow: 0 0 20px var(--accent-glow), 0 0 60px rgba(212, 168, 83, 0.05);
-}
-
-.mono {
-  font-family: var(--font-mono);
-}
-
-/* Hide on mobile */
-@media (max-width: 768px) {
-  .desktop-only {
-    display: none !important;
-  }
-}
-
-/* Hide on desktop */
-@media (min-width: 769px) {
-  .mobile-only {
-    display: none !important;
-  }
-}
-
-/* ---------- Scrollbar ---------- */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-canvas);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-gold-dim);
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--color-coral);
+  outline-offset: 2px;
 }
