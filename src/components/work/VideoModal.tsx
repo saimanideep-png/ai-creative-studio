@@ -2,6 +2,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Sparkles, ChevronLeft, ChevronRight, Layers } from 'lucide-react';
 import { type Project } from '../../data/projects';
+import { resolveAssetUrl } from '../../utils/assetUrl';
 
 export interface VideoModalProps {
   project: Project | null;
@@ -82,6 +83,9 @@ export const VideoModal: React.FC<VideoModalProps> = ({ project, onClose }) => {
   const isPortrait = project?.layout === 'portrait';
   const isCarousel = project?.mediaType === 'carousel' && Boolean(project.galleryImages && project.galleryImages.length > 0);
 
+  const resolvedVideoUrl = project?.mediaUrl ? resolveAssetUrl(project.mediaUrl) : '';
+  const resolvedThumbnailUrl = project?.thumbnail ? resolveAssetUrl(project.thumbnail) : '';
+
   return (
     <AnimatePresence>
       {project && (
@@ -125,7 +129,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({ project, onClose }) => {
               {isCarousel && project.galleryImages ? (
                 <div className="relative w-full flex items-center justify-center bg-black min-h-[380px] max-h-[65vh]">
                   <img
-                    src={project.galleryImages[modalSlideIndex]}
+                    src={resolveAssetUrl(project.galleryImages[modalSlideIndex])}
                     alt={`${project.title} - Slide ${modalSlideIndex + 1}`}
                     className="w-full h-full max-h-[65vh] object-contain"
                   />
@@ -257,11 +261,11 @@ export const VideoModal: React.FC<VideoModalProps> = ({ project, onClose }) => {
                   isPortrait ? 'max-h-[65vh] aspect-[9/16]' : 'aspect-video max-h-[65vh]'
                 }`}>
                   <video
-                    src={project.mediaUrl}
+                    src={resolvedVideoUrl}
                     controls
                     autoPlay
                     playsInline
-                    poster={hasValidThumbnail ? project.thumbnail : undefined}
+                    poster={hasValidThumbnail ? resolvedThumbnailUrl : undefined}
                     className="w-full h-full object-contain"
                   >
                     Your browser does not support HTML5 video.
@@ -271,7 +275,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({ project, onClose }) => {
                 /* Full-size Image */
                 <div className="w-full max-h-[60vh] bg-black flex items-center justify-center overflow-hidden">
                   <img
-                    src={project.mediaUrl || project.thumbnail}
+                    src={resolvedVideoUrl || resolvedThumbnailUrl}
                     alt={project.title}
                     className="w-full h-full max-h-[60vh] object-contain"
                   />

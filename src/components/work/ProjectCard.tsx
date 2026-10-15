@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { Play, Sparkles, ExternalLink, Layers, ChevronLeft, ChevronRight } from 'lucide-react';
 import { type Project } from '../../data/projects';
+import { resolveAssetUrl } from '../../utils/assetUrl';
 
 export interface ProjectCardProps {
   project: Project;
@@ -26,6 +27,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
   const hasDirectVideo = project.mediaType === 'video' && Boolean(project.mediaUrl);
   const isInstagramChannel = project.externalUrl?.includes('instagram.com');
   const isCarousel = project.mediaType === 'carousel' && Boolean(project.galleryImages && project.galleryImages.length > 0);
+
+  const resolvedVideoUrl = project.mediaUrl ? resolveAssetUrl(project.mediaUrl) : '';
+  const resolvedThumbnailUrl = project.thumbnail ? resolveAssetUrl(project.thumbnail) : '';
 
   const aspectClass = isPortrait
     ? 'aspect-[9/16]'
@@ -70,7 +74,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
           /* Multi-image interactive Carousel preview */
           <div className="relative w-full h-full">
             <img
-              src={project.galleryImages[carouselIndex]}
+              src={resolveAssetUrl(project.galleryImages[carouselIndex])}
               alt={`${project.title} - Slide ${carouselIndex + 1}`}
               loading="lazy"
               className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
@@ -115,7 +119,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
           </div>
         ) : hasValidThumbnail ? (
           <img
-            src={project.thumbnail}
+            src={resolvedThumbnailUrl}
             alt={project.title}
             loading="lazy"
             className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
@@ -123,7 +127,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) =>
         ) : hasDirectVideo && !videoError ? (
           /* Render video preview poster directly from video file */
           <video
-            src={`${project.mediaUrl}#t=0.5`}
+            src={`${resolvedVideoUrl}#t=0.5`}
             preload="auto"
             muted
             playsInline
